@@ -74,7 +74,7 @@ def GetYears(df):
             # Parses the formatted string to an int 
             year = StringToYear(split)
             # Adds the year to the list
-            movieYears.append(year)
+            movieYears.append(int(year))
 
     # Returns the list with all the movie years
     return movieYears
@@ -101,22 +101,30 @@ def GetTagReferences(tagsDf, genomeTagsDf):
     return tagReferences
 
 
-moviesDf = CreateDataFrame('CSV\movie.csv')
+# moviesDf = CreateDataFrame('CSV\movie.csv')
 
 # movieYears = GetYears(moviesDf)
 
-# moviesDf.insert(loc = 2, column = "Year", value = movieYears)
+# moviesDf.insert(loc = 2, column = "year", value = movieYears)
+# # Converts "year" from float to int and replace NaN values
+# moviesDf['year'] = moviesDf['year'].fillna(0).astype(int)
 
-# moviesDf.to_csv('CSV\\moviesWithYears.csv')
+# moviesDf.to_csv('CSV\\moviesWithYears.csv', index=False)
 
-tagsDf = CreateDataFrame('CSV\\tag.csv')
+# tagsDf = CreateDataFrame('CSV\\tag.csv')
 
-genomeTagsDf = CreateDataFrame('CSV\\genome_tags.csv')
+# genomeTagsDf = CreateDataFrame('CSV\\genome_tags.csv')
 
-tagReferences = GetTagReferences(tagsDf, genomeTagsDf)
+# tagReferences = GetTagReferences(tagsDf, genomeTagsDf)
 
-genomeTagsDf["References"] = tagReferences
+# genomeTagsDf["references"] = tagReferences
 
-genomeTagsDf.to_csv('CSV\\tagsWithReferences.csv')
+# genomeTagsDf.to_csv('CSV\\tagsWithReferences.csv',index=False)
 
+# moviesDf = CreateDataFrame('CSV\moviesWithYears.csv')
+# moviesDf['rating'] = moviesDf['rating'].fillna(0).astype(float)
+# moviesDf.to_csv('CSV\\moviesWithYears.csv', index=False)
 
+# tagsDf = CreateDataFrame('CSV\\tag.csv')
+# tagsAndMoviesDf = pd.merge(moviesDf, tagsDf, how = "left", on = "movieId")
+# tagsAndMoviesDf.to_csv('CSV\\tagsAndMovies.csv', index = False)
