@@ -22,7 +22,6 @@ def Create():
                 batch = BatchStatement(consistency_level=ConsistencyLevel.QUORUM)
             if i == len(movieAndTagsDf) - 1:
                 output = connection.session.execute(batch)
-            print(row)
             batch.add(insert, (row[6], row[4], row[0], row[1], row[2]))
         
         
@@ -37,10 +36,41 @@ def Create():
         connection.close()
     print('========================================')
     
-Create()
+    
+def Get(tag, limit):
+    print('========================================\n')
 
-connection = Connection()
+    # Try...
+    try:
+        connection = Connection()
+        output = connection.session.execute(
+            f'SELECT * FROM movies_with_tag WHERE tag = \'{tag}\' ORDER BY rating DESC LIMIT {limit};'
+        )
+        offset = 0
+        for row in output:
+            rating = round(row.rating, 2)
+            print(f'{offset} Movie:\n Title: {row.title}\n Year: {row.year}\n Tag: {row.tag.capitalize()}\n Rating: {rating}\n')
+            offset = offset + 1
+    except Exception as e: 
+        print(e)
+        print('Failure')
+    else:
+
+        print('Success')
+        print('Closing connection (up to 10s)')
+    finally:
+        connection.close()
+    print('========================================')
+    
+    
+# Create()
+
+# connection = Connection()
 # output = connection.session.execute('TRUNCATE table movies_with_tag;')
-output = connection.session.execute('SELECT COUNT(*) FROM movies_with_tag;')
+# output = connection.session.execute('SELECT COUNT(*) FROM movies_with_tag;')
 
-print(output)
+# print(output)
+
+Get("comedy", 20)
+
+print("yeah")

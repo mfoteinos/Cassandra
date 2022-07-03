@@ -100,6 +100,17 @@ def GetTagReferences(tagsDf, genomeTagsDf):
     # Returns the list
     return tagReferences
 
+def SlitMovieGenres(moviesDf):
+    df = pd.DataFrame(columns=['movieId','title','year','genre','rating'])
+    # For each row in the data frame...
+    for i, row in moviesDf.iterrows():
+        # Get the value of the column genres
+        genres = row[3]
+        split = genres.split("|")
+        for genre in split:
+            df.loc[df.shape[0]] = [row[0], row[1], row[2], genre, row[4]]
+            
+    return df
 
 # moviesDf = CreateDataFrame('CSV\movie.csv')
 
@@ -110,6 +121,7 @@ def GetTagReferences(tagsDf, genomeTagsDf):
 # moviesDf['year'] = moviesDf['year'].fillna(0).astype(int)
 
 # moviesDf.to_csv('CSV\\moviesWithYears.csv', index=False)
+
 
 # tagsDf = CreateDataFrame('CSV\\tag.csv')
 
@@ -124,6 +136,10 @@ def GetTagReferences(tagsDf, genomeTagsDf):
 # moviesDf = CreateDataFrame('CSV\moviesWithYears.csv')
 # moviesDf['rating'] = moviesDf['rating'].fillna(0).astype(float)
 # moviesDf.to_csv('CSV\\moviesWithYears.csv', index=False)
+
+# newDf = SlitMovieGenres(moviesDf)
+
+# newDf.to_csv('CSV\\moviesWithYears.csv', index=False)
 
 # tagsDf = CreateDataFrame('CSV\\tag.csv')
 # tagsAndMoviesDf = pd.merge(moviesDf, tagsDf, how = "left", on = "movieId")
