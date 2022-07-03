@@ -18,6 +18,28 @@ SELECT * FROM genre_by_year;
 
 SELECT * from genre_by_year WHERE genre = 'Adventure' ORDER BY year DESC;
 
+
+CREATE TABLE IF NOT EXISTS genre_by_rating( 
+  genre      TEXT,
+  movieId     INT, 
+  year        INT, 
+  title      TEXT,
+  rating     FLOAT,
+  PRIMARY KEY ((genre), rating, movieId)
+) WITH CLUSTERING ORDER BY (rating DESC, movieId ASC); 
+
+DROP TABLE IF EXISTS "musemovies".genre_by_rating;
+
+TRUNCATE table genre_by_rating;
+
+INSERT INTO genre_by_rating (genre, year, movieid, rating, title) 
+        VALUES (%s, %s, %s, %s, %s)
+
+SELECT * FROM genre_by_rating;
+
+SELECT * from genre_by_rating WHERE genre = 'Adventure' ORDER BY rating DESC;
+
+
 CREATE TABLE IF NOT EXISTS movies_with_tag ( 
   tag        TEXT,
   movieId     INT, 
