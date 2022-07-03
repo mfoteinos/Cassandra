@@ -34,13 +34,43 @@ def Create():
     finally:
         connection.close()
     print('========================================')
+   
+   
+def Get(genre, orderBy):
+    print('========================================\n')
+
+    # Try...
+    try:
+        connection = Connection()
+        output = connection.session.execute(
+            f'SELECT * from genre_by_year WHERE genre = \'{genre}\' ORDER BY {orderBy} DESC;'
+        )
+        offset = 0
+        for row in output:
+            rating = round(row.rating, 2)
+            print(f'{offset} Movie:\n Title: {row.title}\n Year: {row.year}\n Genre: {row.genre} Rating: {rating}\n')
+            offset = offset + 1
+    except Exception as e: 
+        print(e)
+        print('Failure')
+    else:
+
+        print('Success')
+        print('Closing connection (up to 10s)')
+    finally:
+        connection.close()
+    print('========================================')
+   
     
-Create()
+# Create()
     
-connection = Connection()
+# connection = Connection()
 # output = connection.session.execute('TRUNCATE table genre_by_year;')
-output = connection.session.execute('SELECT COUNT(*) FROM genre_by_year;')
+# output = connection.session.execute('SELECT COUNT(*) FROM genre_by_year;')
+
+# print(output)
 
 
-print(output)
-    
+Get("Adventure", "year")
+
+print('yeah')
