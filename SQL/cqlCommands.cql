@@ -59,3 +59,24 @@ INSERT INTO movies_with_tag (tag, rating, movieid, title, year)
 SELECT * FROM movies_with_tag;
 
 SELECT * FROM movies_with_tag WHERE tag = 'comedy' ORDER BY rating DESC LIMIT 5;
+
+
+
+CREATE TABLE musemovies.ratings_by_timestamp (
+	movieid int,
+	timestamp timestamp,
+	userid int,
+	score float,
+	title text,
+	PRIMARY KEY (movieid, timestamp, userid)
+) WITH CLUSTERING ORDER BY (timestamp DESC, userid ASC)
+
+CREATE TABLE musemovies.movie_info (
+	movieid int,
+	title text,
+	genre text,
+	score float,
+	tags text,
+	userid int,
+	PRIMARY KEY (movieid, title, userid)
+) WITH CLUSTERING ORDER BY (title ASC, userid ASC)
