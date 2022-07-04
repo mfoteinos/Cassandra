@@ -112,35 +112,34 @@ def SlitMovieGenres(moviesDf):
             
     return df
 
-# moviesDf = CreateDataFrame('CSV\movie.csv')
+moviesDf = CreateDataFrame('CSV\movie.csv')
 
-# movieYears = GetYears(moviesDf)
+movieYears = GetYears(moviesDf)
 
-# moviesDf.insert(loc = 2, column = "year", value = movieYears)
-# # Converts "year" from float to int and replace NaN values
-# moviesDf['year'] = moviesDf['year'].fillna(0).astype(int)
+moviesDf.insert(loc = 2, column = "year", value = movieYears)
+# Converts "year" from float to int and replace NaN values
+moviesDf['year'] = moviesDf['year'].fillna(0).astype(int)
 
-# moviesDf.to_csv('CSV\\moviesWithYears.csv', index=False)
+moviesDf.to_csv('CSV\\moviesWithYears.csv', index=False)
 
+tagsDf = CreateDataFrame('CSV\\tag.csv')
 
-# tagsDf = CreateDataFrame('CSV\\tag.csv')
+genomeTagsDf = CreateDataFrame('CSV\\genome_tags.csv')
 
-# genomeTagsDf = CreateDataFrame('CSV\\genome_tags.csv')
+tagReferences = GetTagReferences(tagsDf, genomeTagsDf)
 
-# tagReferences = GetTagReferences(tagsDf, genomeTagsDf)
+genomeTagsDf["references"] = tagReferences
 
-# genomeTagsDf["references"] = tagReferences
+genomeTagsDf.to_csv('CSV\\tagsWithReferences.csv',index=False)
 
-# genomeTagsDf.to_csv('CSV\\tagsWithReferences.csv',index=False)
+moviesDf = CreateDataFrame('CSV\moviesWithYears.csv')
+moviesDf['rating'] = moviesDf['rating'].fillna(0).astype(float)
+moviesDf.to_csv('CSV\\moviesWithYears.csv', index=False)
 
-# moviesDf = CreateDataFrame('CSV\moviesWithYears.csv')
-# moviesDf['rating'] = moviesDf['rating'].fillna(0).astype(float)
-# moviesDf.to_csv('CSV\\moviesWithYears.csv', index=False)
+newDf = SlitMovieGenres(moviesDf)
 
-# newDf = SlitMovieGenres(moviesDf)
+newDf.to_csv('CSV\\moviesWithYears.csv', index=False)
 
-# newDf.to_csv('CSV\\moviesWithYears.csv', index=False)
-
-# tagsDf = CreateDataFrame('CSV\\tag.csv')
-# tagsAndMoviesDf = pd.merge(moviesDf, tagsDf, how = "left", on = "movieId")
-# tagsAndMoviesDf.to_csv('CSV\\tagsAndMovies.csv', index = False)
+tagsDf = CreateDataFrame('CSV\\tag.csv')
+tagsAndMoviesDf = pd.merge(moviesDf, tagsDf, how = "left", on = "movieId")
+tagsAndMoviesDf.to_csv('CSV\\tagsAndMovies.csv', index = False)
